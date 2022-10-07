@@ -11,6 +11,12 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+import csv
+datos=[]
+with open('data.csv') as file:
+    lector = csv.reader(file, delimiter='\t')
+    for fila in lector:
+        datos.append(fila)
 
 
 def pregunta_01():
@@ -21,7 +27,10 @@ def pregunta_01():
     214
 
     """
-    return
+    con=0
+    for fila in datos:
+        con=con+int(fila[1])
+    return con
 
 
 def pregunta_02():
@@ -39,8 +48,17 @@ def pregunta_02():
     ]
 
     """
-    return
+    r=[]
+    le=['A','B','C','D','E']
+    for i in le:
+        cont=0
+        for row in datos:
+            if row[0]==i:
+                cont=cont+1
+        r.append((i,cont))
 
+
+    return (r)
 
 def pregunta_03():
     """
@@ -57,7 +75,17 @@ def pregunta_03():
     ]
 
     """
-    return
+    r=[]
+    le=['A','B','C','D','E']
+    for i in le:
+        cont=0
+        for row in datos:
+            if row[0]==i:
+                cont=cont+int(row[1])
+        r.append((i,cont))
+
+
+    return (r)
 
 
 def pregunta_04():
