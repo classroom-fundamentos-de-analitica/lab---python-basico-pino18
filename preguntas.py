@@ -11,6 +11,14 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+import csv
+from collections import Counter
+from itertools import count
+datos=[]
+with open('data.csv') as file:
+    lector = csv.reader(file, delimiter='\t')
+    for fila in lector:
+        datos.append(fila)
 
 
 def pregunta_01():
@@ -21,7 +29,10 @@ def pregunta_01():
     214
 
     """
-    return
+    con=0
+    for fila in datos:
+        con=con+int(fila[1])
+    return con
 
 
 def pregunta_02():
@@ -39,8 +50,17 @@ def pregunta_02():
     ]
 
     """
-    return
+    r=[]
+    le=['A','B','C','D','E']
+    for i in le:
+        cont=0
+        for row in datos:
+            if row[0]==i:
+                cont=cont+1
+        r.append((i,cont))
 
+
+    return (r)
 
 def pregunta_03():
     """
@@ -57,8 +77,17 @@ def pregunta_03():
     ]
 
     """
-    return
+    r=[]
+    le=['A','B','C','D','E']
+    for i in le:
+        cont=0
+        for row in datos:
+            if row[0]==i:
+                cont=cont+int(row[1])
+        r.append((i,cont))
 
+
+    return (r)
 
 def pregunta_04():
     """
@@ -82,8 +111,15 @@ def pregunta_04():
     ]
 
     """
-    return
-
+    meses=[]
+    for i in datos:
+        fecha=i[2]
+        meses.append(str(fecha[5:7]))
+    res=[]
+    lmes=["01","02","03","04","05","06","07","08","09","10","11","12"]
+    for i in lmes:
+        res.append((i,meses.count(i)))
+    return res
 
 def pregunta_05():
     """
@@ -100,8 +136,15 @@ def pregunta_05():
     ]
 
     """
-    return
-
+    res=[]
+    let=['A','B','C','D','E']
+    for i in let:
+        nums=[]
+        for j in datos:
+            if i==j[0]:
+                nums.append(int(j[1]))
+        res.append((i,max(nums),min(nums)))
+    return(res)
 
 def pregunta_06():
     """
@@ -125,7 +168,20 @@ def pregunta_06():
     ]
 
     """
-    return
+    valores=[]
+    for row in datos:
+        spl = row[4].split(",")
+        for j in spl:
+            valores.append(j)    
+    res=[]
+    combis=['aaa','bbb','ccc','ddd','eee','fff','ggg','hhh','iii','jjj']
+    for i in combis:
+        vals=[]
+        for j in valores:
+            if(i==j[:3]):
+                vals.append(int(j[4:]))
+        res.append((i,min(vals),max(vals)))
+    return (res)
 
 
 def pregunta_07():
@@ -149,8 +205,16 @@ def pregunta_07():
     ]
 
     """
-    return
-
+    let=['A','B','C','D','E']
+    nums=['0','1','2','3','4','5','6','7','8','9']
+    respuesta=[]
+    for n in nums:
+        letasociadas=[]
+        for row in datos:
+            if row[1]==n:
+                letasociadas.append(row[0])
+        respuesta.append((int(n),letasociadas))
+    return (respuesta)
 
 def pregunta_08():
     """
@@ -174,8 +238,16 @@ def pregunta_08():
     ]
 
     """
-    return
-
+    let=['A','B','C','D','E']
+    nums=['0','1','2','3','4','5','6','7','8','9']
+    respuesta=[]
+    for n in nums:
+        letasociadas=[]
+        for row in datos:
+            if ((row[1]==n) and row[0] not in letasociadas):
+                letasociadas.append(row[0])
+        respuesta.append((int(n),sorted(letasociadas)))
+    return (respuesta)
 
 def pregunta_09():
     """
@@ -197,8 +269,21 @@ def pregunta_09():
     }
 
     """
-    return
-
+    valores=[]
+    for row in datos:
+        spl = row[4].split(",")
+        for j in spl:
+            valores.append(j)    
+    
+    tripletas=['aaa','bbb','ccc','ddd','eee','fff','ggg','hhh','iii','jjj']
+    res={}
+    for d in tripletas:
+        cont=0 
+        for l in valores:
+            if(d==l[:3]):
+                cont=cont+1
+        res.update({d:cont})
+    return res
 
 def pregunta_10():
     """
@@ -216,10 +301,14 @@ def pregunta_10():
         ("E", 3, 3),
     ]
 
-
     """
-    return
-
+    res=[]
+    for row in datos:
+        let=row[0]
+        lc4=len(row[3].split(","))
+        lc5=len(row[4].split(","))
+        res.append((let,lc4,lc5))
+    return res
 
 def pregunta_11():
     """
@@ -239,7 +328,19 @@ def pregunta_11():
 
 
     """
-    return
+    lets= ['a','b','c','d','e','f','g']
+    nuevo=[]
+    for row in datos:
+        nuevo.append((row[1],row[3].split(",")))
+    
+    res={}
+    for l in lets:
+        cont = 0
+        for n in nuevo:
+            if(l in n[1]):
+                cont += int(n[0])
+        res.update({l:cont})
+    return res
 
 
 def pregunta_12():
@@ -257,4 +358,16 @@ def pregunta_12():
     }
 
     """
-    return
+    res={}
+    letras= ['A','B','C','D','E']
+    for l in letras:
+        tripletas =[]
+        contar = 0
+        for row in datos:
+            if(row[0]==l):
+                lista = row[4].split(",")
+                for val in lista: 
+                    s= val.split(":")
+                    contar+=int(s[1])
+        res.update({l:contar})
+    return res
